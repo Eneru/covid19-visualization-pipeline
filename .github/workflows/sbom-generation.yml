@@ -1,0 +1,35 @@
+name: CycloneDX SBOM generation
+on:
+  push:
+    tags: 
+        '**'
+jobs:
+  static-analysis:
+    name: CycloneDX SBOM generation
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+            cache: 'pip'
+      - name: Install CycloneDX
+        run: |
+          pip install cyclonedx-bom
+      - name: Run CycloneDX requirements
+        if: ${{ hashFiles('requirements.txt') != '' }}
+        run: |
+          cyclonedx-py requirements --outfile requirements.sbom.json --output-format JSON
+      - name: Run CycloneDX Pipenv
+        if: ${{ hashFiles('Pipfile') != '' && hashFiles('Pipfile.lock') != '' }}
+        run: |
+          cyclonedx-py pipenv --outfile pipenv.sbom.json --output-format JSON
+      - name: Run CycloneDX Poetry
+        if: ${{ hashFiles('pyproject.toml') != '' && hashFiles('poetry.lock') != '' }}
+        run: |
+          cyclonedx-py poetry --outfile poetry.sbom.json --output-format JSON
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sboms
+          path: '*.sbom.json'

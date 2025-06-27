@@ -1,0 +1,29 @@
+name: Dependency-Check
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  dependency-check:
+    name: Dependency-Check
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v4
+      - name: Run Dependency Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: "${{ github.event.repository.name }}"
+          path: '.'
+          format: 'JSON'
+          out: 'reports'
+          args: >
+            --prettyPrint
+            --failOnCVSS 7
+            --enableExperimental
+      - name: Upload Dependency Check report
+        uses: actions/upload-artifact@v4
+        with:
+          name: Dependency Check report
+          path: "${{github.workspace}}/reports"
