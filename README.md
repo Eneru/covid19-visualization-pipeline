@@ -1,88 +1,92 @@
-# vscode-python-datascience-template
+# COVID-19 Data ETL & Visualization Pipeline
 
 [![security: bandit](https://img.shields.io/badge/security-bandit-yellow.svg)](https://github.com/PyCQA/bandit) [![protected: by-gitleaks-blue](https://img.shields.io/badge/protected%20by-gitleaks-blue)](https://github.com/gitleaks/gitleaks-action) [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit) [![Uses the Cookiecutter Data Science project template](https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter)](https://cookiecutter-data-science.drivendata.org/)
 
-Start a datascience project faster and easier by simply creating a repository based on this template.  
-This repository already includes some of the most known DevSecOps recommandations.
+This project demonstrates an end-to-end ETL (Extract, Transform, Load) pipeline on global COVID-19 data, sourced from Our World in Data. It includes data cleaning, transformation, and visual analysis using Python.
 
-## Run Locally
+The goal is to simulate a real-world data engineering + AI scenario where data must be processed before feeding into models or applications.
 
-Clone the project
+---
 
-```bash
-git clone https://link-to-my-project
+## 🧩 Features
+
+- Extracts COVID-19 case data for selected countries
+- Cleans and transforms time-series data (missing values, rolling averages)
+- Computes custom metrics (e.g. daily cases per 100k people)
+- Creates interactive visualizations using Plotly and Matplotlib
+
+---
+
+## 🛠 Technologies Used
+
+- Python 3.10+
+- Pandas, NumPy
+- Plotly, Matplotlib, Seaborn
+- Jupyter Notebook
+- GitHub
+
+---
+
+## 📁 Project Structure
+
+```
+├── LICENSE            <- Open-source license if one is chosen
+├── Makefile           <- Makefile with convenience commands like `make data` or `make train`
+├── README.md          <- The top-level README for developers using this project.
+├── data
+│   ├── external       <- Data from third party sources.
+│   ├── interim        <- Intermediate data that has been transformed.
+│   ├── processed      <- The final, canonical data sets for modeling.
+│   └── raw            <- The original, immutable data dump.
+│
+├── docs               <- A default mkdocs project; see www.mkdocs.org for details
+│
+├── models             <- Trained and serialized models, model predictions, or model summaries
+│
+├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
+│                         the creator's initials, and a short `-` delimited description, e.g.
+│                         `1.0-jqp-initial-data-exploration`.
+│
+├── pyproject.toml     <- Project configuration file with package metadata for 
+│                         covid19_visualization_pipeline and configuration for tools like black
+│
+├── references         <- Data dictionaries, manuals, and all other explanatory materials.
+│
+├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
+│   └── figures        <- Generated graphics and figures to be used in reporting
+│
+├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
+│                         generated with `pip freeze > requirements.txt`
+│
+├── setup.cfg          <- Configuration file for flake8
+│
+└── covid19_visualization_pipeline   <- Source code for use in this project.
+    │
+    ├── __init__.py             <- Makes covid19_visualization_pipeline a Python module
+    │
+    ├── config.py               <- Store useful variables and configuration
+    │
+    ├── dataset.py              <- Scripts to download or generate data
+    │
+    ├── features.py             <- Code to create features for modeling
+    │
+    ├── modeling                
+    │   ├── __init__.py 
+    │   ├── predict.py          <- Code to run model inference with trained models          
+    │   └── train.py            <- Code to train models
+    │
+    └── plots.py                <- Code to create visualizations
 ```
 
-Go to the project directory and launch VSCode
+---
+
+## 🚀 How to Run
+
+1. Clone the repo  
+2. Install dependencies  
+3. Open `EDA.ipynb` or run `etl_pipeline.py`
 
 ```bash
-cd my-project
-code .
+pip install -r requirements.txt
+python scripts/etl_pipeline.py
 ```
-
-> If you want to use JupyterLab, you must uncomment the installation, execution on container start and appPort in .devcontainer/devcontainer.json.
-
-You should reopen VSCode in a devcontainer.
-
-Then give the rights to your user to the files that will be overwritten:
-
-```bash
-sudo chown $USER:$USER README.md
-sudo chown $USER:$USER .gitignore
-```
-
-Create a project in a terminal using ccds *(the `-f` parameter will override the files)* from the parent directory:
-
-```bash
-cd ..
-ccds -f
-```
-
-In the command for the "project" name, you must give the name of the git folder *(`my-project` in my previous example)*.  
-
-Go back to the directory and give files rights back to root:
-
-```bash
-cd my-project
-sudo chown root README.md
-sudo chown root .gitignore
-```
-
-Then configure pre-commit *(if you want to execute gitleaks every time you commit)*:
-
-```bash
-pre-commit autoupdate
-pre-commit install
-```
-
-And finally, if you want to ignore some findings from `gitleaks`, add them to the .gitleaksignore file.
-
-*(If you want to add Anaconda directly at the container creation, uncomment it in the devcontainer.json)*
-
-## Pay attention
-
-### If you are using Conda
-
-Conda is not directly handled by cyclonedx. You will certainly need to precise a Conda build in GitHub action, and add the conda SBOM generation with something like:  
-```bash
-cyclonedx-py environment "$(conda run which python)"
-```
-
-### If you have a lot of files or big files
-
-gitleaks will scan every file before each commit. If you have a lot of files or big files, maybe you should only trigger it in GitHub action, and then remove .pre-commit-config.yml file.
-
-The GitHub action can be found on the [gitleak repository](https://github.com/gitleaks/gitleaks?tab=readme-ov-file#github-action).
-
-## Related
-
-Here are some related documentations:
-
-- [How to structure Python's project in Data science](https://cookiecutter-data-science.drivendata.org/)  
-- [Microsoft's doc on devcontainers](https://code.visualstudio.com/docs/devcontainers/containers)  
-- [Microsoft's doc on Python in VS](https://code.visualstudio.com/docs/python/python-quick-start)
-- [Microsoft's base image that I copied](https://github.com/microsoft/datascience-py-r)
-
-## Authors
-
-- [@eneru](https://www.github.com/Eneru)
