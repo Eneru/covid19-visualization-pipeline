@@ -55,6 +55,16 @@ create_environment:
 	@echo ">>> Unix/macOS: source ./.venv/bin/activate"
 
 
+## Clean dataset
+.PHONY: process
+process:
+	python covid19_visualization_pipeline/dataset.py
+
+
+## Generate graph figures
+.PHONY: graph
+graph:
+	python covid19_visualization_pipeline/plots.py
 
 
 #################################################################################

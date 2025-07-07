@@ -24,10 +24,12 @@ dependencies = [
     "numpy",
     "pandas",
     "pip",
+    "plotly>=6.2.0",
     "pytest",
     "python-dotenv",
     "ruff",
     "scikit-learn",
+    "seaborn>=0.13.2",
 ]
 requires-python = "~=3.10.0"
 
